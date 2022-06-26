@@ -1,21 +1,21 @@
 import { DataSource } from "typeorm"
 import dotenv from "dotenv"
+import path from "path"
 dotenv.config()
 
 
 export const AppDataSource = new DataSource({
     type:"postgres",
     url: process.env.DATABASE_URL,
-    ssl: process.env.NODE_END==="production"?
-    {rejectUnauthorized:false}:
-    false,
+    ssl: process.env.NODE_ENV==="production"?{ rejectUnauthorized: false }: false,
+    
     
 
 
     synchronize:false,
     logging:true,
-    entities:process.env.NODE_END==="production"?["dist/entities/*.js"]:["src/entities/*.ts"],
-    migrations:process.env.NODE_END==="production"?["dist/migrations/*.js"]:["src/migrations/*.ts"]
+    entities: [path.join(__dirname, "./entities/**/*.{js,ts}")],
+    migrations: [path.join(__dirname, "./migrations/**/*.{js,ts}")],
 
 })
 

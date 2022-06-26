@@ -7,10 +7,10 @@ import { createDvdSchema } from "../schemas/dvdSchema";
 const route=Router()
 
 export const dvdRoutes=()=>{
-    route.get("/:id",)
+    // route.get("/:id",)
     route.post("/register",validateSchema(createDvdSchema),verifyIsAdm,validateToken,dvdCreateController)
-    route.post("/login",)
-    route.patch("/:id",)
-    route.delete("/:id",)
+    // route.post("/login",)
+    // route.patch("/:id",)
+    // route.delete("/:id",)
     return route
 }

@@ -14,10 +14,10 @@ import validateToken from "../middlewares/verifyToken.middleware";
 const route=Router()
 
 export const userRoutes=()=>{
-    route.get("/:id",verifyGetUser,userGetByIdController)
+    // route.get("/:id",verifyGetUser,userGetByIdController)
     route.post("/register",verifyIsAdm,validadeSchema(createUserSchema),verifyUserExists,userCreateController)
     route.post("/login",validadeSchema(loginSchema),userLoginController)
-    route.patch("/:id",userUpdateController)
-    route.delete("/:id",userDeleteController)
+    // route.patch("/:id",userUpdateController)
+    // route.delete("/:id",userDeleteController)
     return route
 }
