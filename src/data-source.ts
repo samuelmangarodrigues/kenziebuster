@@ -3,12 +3,6 @@ import dotenv from "dotenv"
 import path from "path"
 dotenv.config()
 
-const TestEnv = new DataSource({
-    type: "sqlite",
-    database: "../dbTest.sqlite",
-    synchronize: true,
-    entities: [path.join(__dirname, "./entities/**/*.{js,ts}")],
-  });
   
 const AppDataSource = new DataSource({
     type:"postgres",
@@ -24,4 +18,4 @@ const AppDataSource = new DataSource({
 
 })
 
-export default process.env.NODE_ENV === "test" ? TestEnv : AppDataSource;
+export default AppDataSource;
