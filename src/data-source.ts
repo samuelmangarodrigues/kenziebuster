@@ -3,8 +3,14 @@ import dotenv from "dotenv"
 import path from "path"
 dotenv.config()
 
-
-export const AppDataSource = new DataSource({
+const TestEnv = new DataSource({
+    type: "sqlite",
+    database: "../dbTest.sqlite",
+    synchronize: true,
+    entities: [path.join(__dirname, "./entities/**/*.{js,ts}")],
+  });
+  
+const AppDataSource = new DataSource({
     type:"postgres",
     url: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV==="production"?{ rejectUnauthorized: false }: false,
@@ -18,7 +24,4 @@ export const AppDataSource = new DataSource({
 
 })
 
-
-AppDataSource.initialize().then(()=>{
-    console.log("DataSource inicialized")
-}).catch((err)=>console.log("Error Data Source",err))
+export default process.env.NODE_ENV === "test" ? TestEnv : AppDataSource;
