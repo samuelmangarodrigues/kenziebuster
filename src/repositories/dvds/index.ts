@@ -1,4 +1,4 @@
-import { AppDataSource } from "../../data-source";
+import  AppDataSource  from "../../data-source";
 import { DeleteResult,UpdateResult,Repository } from "typeorm";
 import { DvD } from "../../entities/dvd.entite";
 
