@@ -2,7 +2,7 @@ import { DvD } from "../../entities/dvd.entite";
 import { Request} from "express";
 import DvDepository from "../../repositories/dvds"
 import { Stock } from "../../entities/stock.entite";
-import { AppDataSource } from "../../data-source";
+import  AppDataSource  from "../../data-source";
 import { serializedDvdSchema } from "../../schemas/dvdSchema";
 
 
