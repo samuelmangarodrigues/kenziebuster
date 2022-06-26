@@ -4,6 +4,9 @@
   "main": "index.js",
   "repository": "git@github.com:samuelmangarodrigues/kenziebuster.git",
   "author": "samuelmangarodrigues <samuelmanga22222222@outlook.com>",
+  "engines": {
+    "node": "16.15.0"
+  },
   "scripts": {
     "dev": "ts-node-dev --files --rs src/server.ts ",
     "typeorm": "typeorm-ts-node-commonjs",
