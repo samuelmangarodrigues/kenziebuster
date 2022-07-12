@@ -4,3 +4,12 @@ export interface IDvd{
     duration:number
     stock:object
 }
+
+
+export interface IDvdCreate {
+    name: string;
+    duration: string;
+    quantity: number;
+    price: number;
+  }
+  

@@ -3,7 +3,6 @@ import { Request,Response } from "express";
 
 
 const userCreateController= async(req:Request,res:Response)=>{
-    console.log(req.body)
     const newUser = await userCreateService(req)
     console.log(newUser.cart)
 

@@ -1,6 +1,7 @@
-import { Cart } from "../../src/entities/cart.entite";
-import { DvD } from "../../src/entities/dvd.entite";
-import {User} from "../../src/entities/User"
+import  {Cart}  from "../../src/entities/cart.entite";
+import {User} from "../../src/entities/user.entitie"
+import {DvD} from "../../src/entities/dvd.entitie"
+import {IDvd, IDvdCreate} from "../../src/interfaces/DvD"
 
 declare global {
   namespace Express {
@@ -8,8 +9,10 @@ declare global {
       user: User;
       validated:User | DvD;
       decoded: Partial<User>;
-      cart:Cart
-      dvd:DvD
+      cart:Cart[]
+      quantity: number;
+      dvd: IDvdCreate[];
+      allDvds:IDvd
     }
   }
 }

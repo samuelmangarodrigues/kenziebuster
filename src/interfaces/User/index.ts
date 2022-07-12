@@ -1,10 +1,14 @@
 export interface IUser{
-email:string
-name:string
-password:string
-isAdm:boolean
+    email:string
+    name:string
+    password:string
+    isAdm:boolean
 }
-
+export interface IUserGet{
+    name:string
+    email:string
+    isAdm:boolean
+}
 export interface IUserListOne{
     authorization?:string
 }

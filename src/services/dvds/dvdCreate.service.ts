@@ -1,41 +1,25 @@
-import { DvD } from "../../entities/dvd.entite";
-import { Request} from "express";
-import DvDepository from "../../repositories/dvds"
-import { Stock } from "../../entities/stock.entite";
-import  AppDataSource  from "../../data-source";
+import { Request } from "express";
+import { Stock } from "../../entities/stock.entitie";
+import dvdRepository from "../../repositories/dvds"
 import { serializedDvdSchema } from "../../schemas/dvdSchema";
+import stockRepository from "../../repositories/stock"
+import { Dvd } from "../../entities/dvd.entitie";
 
 
-const dvdCreateService=async(req:Request)=>{
-
-
-    const stockRepository = AppDataSource.getRepository(Stock)
-    const dvdRepository = AppDataSource.getRepository(DvD)
-
-
-
-    const dvd = new DvD()
+const dvdCreateService= async({validated,body}:Request)=>{
+    const dvd = validated as Dvd
     const stock = new Stock()
-
-    stock.price = req.body.price
-    stock.quantity = req.body.quantity
-
-    stockRepository.create(stock) 
-    await stockRepository.save(stock)
-
+    stock.price = body.price
+    stock.quantity = body.quantity
     
-    dvd.duration = req.body.duration
-    dvd.name = req.body.name
-    dvd.stock = stock
+    const newStock = await stockRepository.save(stock)
 
-    dvdRepository.create(dvd)
-    await dvdRepository.save(dvd)
+    dvd.stock = newStock
 
-
-    return serializedDvdSchema.validate(dvd,{
-        stripUnknown:true
-    })
+    const newDvd = await dvdRepository.save(dvd)
 
 
+    return serializedDvdSchema.validate(newDvd,{stripUnknown:true})
 }
+
 export default dvdCreateService

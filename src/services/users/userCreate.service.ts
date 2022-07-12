@@ -1,31 +1,31 @@
 import { Request,Response } from "express"
-import { User } from "../../entities/user.entite"
 import { hash } from "bcrypt"
+import { User } from "../../entities/user.entitie"
 import userRepository from "../../repositories/users"
-import { serializedCreateUserSchema } from "../../schemas/userSchema"
-import { Cart } from "../../entities/cart.entite"
 import cartRepository from "../../repositories/cart"
-
-const userCreateService =async({validated}:Request):Promise<Partial<User>>=>{
-
-    const userValidated = validated as User
-
-    userValidated.password = await hash(userValidated.password,10)
+import { Cart } from "../../entities/cart.entitie"
+import { userCreateSerializedSchema } from "../../schemas/userSchema"
 
 
-    const newCart = new Cart()
-    newCart.total = 0
-    newCart.paid = false
-    newCart.dvds = []
-    await cartRepository.save(newCart)
+const userCreateService = async ({ validated }: Request) => {
 
-    userValidated.cart = newCart
+    const newUser = validated as User
+
+    newUser.password = await hash(newUser.password, 10);
+
+    const newCart = new Cart();
+
+    await cartRepository.save(newCart);
     
-    const user = await userRepository.save({...userValidated})
-        
+    newUser.cart as Cart[]
     
-    return serializedCreateUserSchema.validate(user,{
-        stripUnknown:true
-    })
-}
+    newUser.cart.push(newCart)
+    
+    const user: User = await userRepository.save(newUser);
+    
+    return user
+
+   
+  };
 export default userCreateService
+

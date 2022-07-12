@@ -1,31 +1,32 @@
-import  AppDataSource  from "../../data-source";
-import { DeleteResult,UpdateResult,Repository } from "typeorm";
-import { DvD } from "../../entities/dvd.entite";
+import { Repository, UpdateResult } from "typeorm";
 
+import AppDataSource from "../../data-source";
+import { Dvd } from "../../entities/dvd.entitie";
 
-interface IDvDrepo{
-    save:(dvd:DvD)=>Promise<DvD>
-    updated:(uuid:string,payload:Partial<DvD>)=>Promise<UpdateResult>
-    delete:(uuid:string)=>Promise<DeleteResult>
-    retrieve:(payload:object)=>Promise<DvD|null>
-    getAll: () =>Promise<DvD[]>
+interface IDvdRepository {
+    save: (dvd: Partial<Dvd>) => Promise<Dvd>;
+    findAll: () => Promise<Dvd[]>;
+    findOne: (payload: object) => Promise<Dvd | null>;
+    updated:(id:string,payload:Partial<Dvd>)=>Promise<UpdateResult>
+  }
+  
+class DvdRepository implements IDvdRepository {
+  private repo: Repository<Dvd>;
+
+  constructor() {
+    this.repo = AppDataSource.getRepository(Dvd);
+  }
+
+  save = async (dvd: Partial<Dvd>) => await this.repo.save(dvd);
+
+  findAll = async () => await this.repo.find();
+
+  findOne = async (payload: object) => {
+    return await this.repo.findOneBy({ ...payload });
+  };
+  updated= async (id: string, payload: Partial<Dvd>) =>{
+    return this.repo.update(id,{...payload})
+}
 }
 
-class DvDepository implements IDvDrepo{
-    private repo:Repository<DvD>
-
-    constructor(){
-        this.repo = AppDataSource.getRepository(DvD)
-    }
-
-    save =async (dvd:DvD) => await this.repo.save(dvd);
-    updated= async (uuid: string, payload: Partial<DvD>) =>{
-      
-        return this.repo.update(uuid,{...payload})
-    }
-    delete=async (uuid: string) =>await this.repo.delete(uuid);
-
-    retrieve =async( payload:object)=>await this.repo.findOneBy({...payload})
-    getAll=async () => await this.repo.find();
-}
-export default new DvDepository()
+export default new DvdRepository();

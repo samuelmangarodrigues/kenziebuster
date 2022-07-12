@@ -1,8 +1,7 @@
 import  AppDataSource  from "../../data-source";
 import { DeleteResult,UpdateResult,Repository } from "typeorm";
-import { User } from "../../entities/user.entite";
 import { hash } from "bcrypt";
-
+import {User} from "../../entities/user.entitie"
 
 interface IUserRepo{
     save:(user:User)=>Promise<User>
